@@ -18,6 +18,7 @@ typedef uint32_t u32;
 typedef uint64_t u64;
 
 typedef size_t usize;
+typedef void (*func_ptr_t)();
 
 typedef char* cstring;
 

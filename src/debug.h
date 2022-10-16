@@ -2,8 +2,9 @@
 // Created by 28379 on 10/6/2022.
 //
 
-#ifndef K2_DEBUG_H
-#define K2_DEBUG_H
+#ifndef __DEBUG_H__
+#define __DEBUG_H__
+
 #include "common.h"
 
 #define debug30(identifier) { \
@@ -17,5 +18,19 @@
 }
 
 void print_x30(u64 x30);
+
+#define _debug(...) do {\
+  printf("DEBUG: ");\
+  printf(__VA_ARGS__);\
+} while (0)
+
+#ifdef DEBUG
+  #define debug(...) _debug(__VA_ARGS__)
+#else
+  #define debug(...)
+#endif
+
+
+
 
 #endif //K2_DEBUG_H

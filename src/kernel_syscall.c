@@ -10,7 +10,7 @@ void sys_create() {
   if (current_task != NULL) {
     int priority = current_task->x[0];
     u64 func_ptr = current_task->x[1];
-    Task *new_task = create_task(priority, func_ptr, current_task->tid);
+    Task *new_task = create_task(priority, (func_ptr_t)func_ptr, current_task->tid);
     if (new_task != NULL) {
       assign_result(current_task, new_task->tid);
     } else {

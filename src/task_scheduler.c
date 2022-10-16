@@ -6,7 +6,7 @@
 #include "printf.h"
 #include "boot.h"
 
-#define TASK_POOL_SIZE  64
+#include "config.h"
 
 #define SPSR_MASK_ALL (7 << 6)
 #define SPSR_EL1h (5 << 0)

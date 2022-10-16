@@ -16,7 +16,7 @@ void name_and_rps_server() {
   tid = Create(8, rps_server);
   printf("rps server created\r\n");
 
-  for (usize i = 0; i < 50; i ++) {
+  for (usize i = 0; i < 10; i ++) {
     tid = Create(7, rps_client);
     printf("client %lu created\r\n", i);
   }

@@ -8,7 +8,8 @@
 #include "../tasks/k1_user_tasks.h"
 #include "../tasks/test_syscall_inside_function.h"
 #include "../tasks/name_and_rps_server.h"
+#include "../tasks/test_gic.h"
 
 void config() {
-  initial_user_task = name_and_rps_server;
+  initial_user_task = test_gic;
 }

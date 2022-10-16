@@ -4,6 +4,9 @@
 #include "common.h"
 #include "task.h"
 
+#define PSTATE_IRQ 7
+#define PSTATE_FIQ 6
+
 extern u64* kernel_regs;
 extern void (*initial_user_task)(void);
 void boot();

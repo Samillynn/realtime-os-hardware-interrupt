@@ -1,13 +1,29 @@
 #include "macro.S"
-.text
-.align 4
-.global exception_entry
 
-exception_entry:
+.macro switch_to_kernel
     save_user_regs current_task
     load_general_regs kernel_regs
+.endm
 
-    mrs x0, esr_el1
+.text
+.align 4
+.global synchronous_exception_entry
+
+synchronous_exception_entry:
+    switch_to_kernel
+
+    // SYNCHRONOUS_EXCEPTION is 0
+    mov x0, #0
+    ret
+
+.text
+.align 4
+.global irq_entry
+irq_entry:
+    switch_to_kernel
+
+    // IRQ is 1
+    mov x0, #1
     ret
 
 
