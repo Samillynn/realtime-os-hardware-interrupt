@@ -1,0 +1,81 @@
+// Receiver First
+
+// opt
+opt, nocache, R, 4,   71ms
+opt, nocache, R, 64,  72ms
+opt, nocache, R, 256, 86ms
+
+opt, dcache,  R, 4,   70ms
+opt, dcache,  R, 64,  72ms
+opt, dcache,  R, 256, 85ms
+
+
+opt, icache,  R, 4,   44ms
+opt, icache,  R, 64,  46ms
+opt, icache,  R, 256, 62ms
+
+
+opt, bcache,  R, 4,   41ms
+opt, bcache,  R, 64,  44ms
+opt, bcache,  R, 256, 60ms
+
+
+// noopt
+noopt, nocache, R, 4,  692ms
+noopt, nocache, R, 64, 880ms
+noopt, nocache, R, 256,1507ms
+
+noopt, dcache,  R, 4,  698ms
+noopt, dcache,  R, 64, 936ms
+noopt, dcache,  R, 256,1498ms
+
+
+noopt, icache,  R, 4,   742ms
+noopt, icache,  R, 64,  876ms
+noopt, icache,  R, 256, 1498ms
+
+
+noopt, bcache,  R, 4,   670ms
+noopt, bcache,  R, 64,  866ms
+noopt, bcache,  R, 256, 1613ms
+
+
+// Sender First
+// opt
+opt, nocache, S, 4,   72ms
+opt, nocache, S, 64,  73ms
+opt, nocache, S, 256, 85ms
+
+opt, dcache,  S, 4,   69ms
+opt, dcache,  S, 64,  71ms
+opt, dcache,  S, 256, 84ms
+
+
+opt, icache,  S, 4,   45ms
+opt, icache,  S, 64,  47ms
+opt, icache,  S, 256, 63ms
+
+
+opt, bcache,  S, 4,   42ms
+opt, bcache,  S, 64,  42ms
+opt, bcache,  S, 256, 58ms
+
+
+// noopt
+noopt, nocache, S, 4,  688ms
+noopt, nocache, S, 64, 883ms
+noopt, nocache, S, 256,1487ms
+
+noopt, dcache,  S, 4,  698ms
+noopt, dcache,  S, 64, 932ms
+noopt, dcache,  S, 256,1488ms
+
+
+noopt, icache,  S, 4,   744ms
+noopt, icache,  S, 64,  874ms
+noopt, icache,  S, 256, 1489ms
+
+
+noopt, bcache,  S, 4,   672ms
+noopt, bcache,  S, 64,  857ms
+noopt, bcache,  S, 256, 1610ms

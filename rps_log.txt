@@ -1,0 +1,112 @@
+Start Program
+Scheduled task id is: 0
+Activate task tid=0
+start initial user task
+Task 0
+
+Scheduled task id is: 1
+Activate task tid=1
+Task 1
+
+Scheduled task id is: 1
+Activate task tid=1
+name_server_tid = 1
+Task 1
+
+Beginning of receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+Sender queue is empty, block receiver
+Before change state in receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+After change state in receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+
+Scheduled task id is: 0
+Activate task tid=0
+name server created
+Task 0
+
+Scheduled task id is: 2
+Activate task tid=2
+rps_server
+Task 2
+
+Scheduled task id is: 2
+Activate task tid=2
+rps_server_tid = 2
+called RegisterAs(rps_server)
+Task 2
+
+Scheduled task id is: 2
+Activate task tid=2
+Task 2
+
+Scheduled task id is: 2
+Activate task tid=2
+    [RegisterAs][from 2]: Send(1, ...)
+Task 2
+Beginning of send
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+    [sys_send]: [send_args] tid=1, msg=, msg_len=24, reply(00000000001358C0)=, reply_len=24
+End of send
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+    [sys_send]: [send_args] tid=1, msg=, msg_len=24, reply(00000000001358C0)=, reply_len=24
+
+Scheduled task id is: 1
+Activate task tid=1
+    [name_server]: Received tid: 2, msg(0, rps_server, 2)
+Task 1
+
+Scheduled task id is: 1
+Activate task tid=1
+    [name_server][from 1]: calling Reply(2, msg[0, rps_server, 2])
+Task 1
+Beginning of reply
+    [sys_reply]: [args] tid=2, reply(0000000000135B30)=, reply_len=24
+    [sys_send]: [send_args] tid=1, msg=, msg_len=24, reply(00000000001358C0)=, reply_len=24
+End of reply
+    [sys_reply]: [args] tid=2, reply(0000000000135B30)=, reply_len=24
+    [sys_send]: [send_args] tid=1, msg=, msg_len=24, reply(00000000001358C0)=, reply_len=24
+
+Scheduled task id is: 1
+Activate task tid=1
+Task 1
+Beginning of receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+sender queue is empty, block receiver
+Before change state in receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+After change state in receive
+    [sys_receive]: *tid=1268556, msg=0000000000135B30, msg_len=24
+
+/*** where error starts ***/
+Scheduled task id is: 2
+Activate task tid=2
+RegisterAs send finished
+pc=0000000000086B14, x30=0000000000085DC0
+Task 2
+  Reg[30]=1268120
+  PC=0000000000135998
+Unsupported exception class: 33554432
+
+Scheduled task id is: 2
+Activate task tid=2
+Task 2
+  Reg[30]=1268120
+  PC=0000000000135998
+Unsupported exception class: 33554432
+
+Scheduled task id is: 2
+Activate task tid=2
+Task 2
+  Reg[30]=1268120
+  PC=0000000000135998
+Unsupported exception class: 33554432
+
+Scheduled task id is: 2
+Activate task tid=2
+Task 2
+  Reg[30]=1268120
+  PC=0000000000135998
+Unsupported exception class: 33554432
+

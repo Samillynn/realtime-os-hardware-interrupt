@@ -1,0 +1,91 @@
+check sp, x29, x30
+
+sub task prio low
+
+Prob: receive tid is wrong
+
+q[t], q[h]
+h -1
+t 0
+if t == h: full
+
+
+state in Task -> active, ready, block
+
+get_task_by_tid(tid) -> Task*
+
+schedule:
+    if block:
+        push back
+
+state: ready, running, wait_send, wait_reply, wait_receive
+
+#TODO
+what if sender dies b4 reply
+
+TODO: -2	send-receive-reply transaction could not be completed.
+
+
+#TODO
+error boundaries
+
+TODO
+truncate msg and raise avoid buffer overflow
+
+synchronized_send_receive(st, rt, c* from_msg, int lf, c* to_msg, int lt) {
+
+    copy from sender to rec (calculate return value) (calculate l(msg) accordingly)
+    rec.x[0] = length of msg
+}
+
+int copy_message(c* fm, fl, tm, tl): -> real length
+
+
+send:
+    // if return value is -1
+    x[0] = -1
+    return
+
+    //
+    rec = get(id)
+    if rec is wait_r:
+        assign value to tid
+        synchronized_send_receive(st, rt, c* from_msg, int lf, c* to_msg, int lt) {
+        st.s = waitreply
+        rec.s = ready
+
+    elif rec is not wait_r:
+        s.s = wait_receive
+        !! register rec
+
+receive:
+    assert r.s is ready
+    pop sender from queue (queue or sth) (abstract get method)
+    if sender is not NULL
+        assert sender.s is wait_send:
+        sender = get(id)
+
+        tid
+        sd.s = wait_rep
+        sync_send_rec
+        return
+
+    else:
+        r.state = waitrec // block
+
+
+
+reply:
+    assert s.s = waitreply
+
+    copy from rec to sender
+    s.s = ready
+    s.x[0] = sth
+
+    rec.x[0] = sth
+
+
+
+
+
+
