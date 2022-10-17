@@ -15,7 +15,7 @@ extern Task *current_task;
 
 void change_task_state(Task* self, TaskState state);
 
-void scheduler_init();
+void init_scheduler();
 
 void task_queue_init();
 
@@ -32,6 +32,10 @@ Task *create_task(i32 priority, void func(), i32 parent_tid);
 void remove_current_task();
 
 Task *get_current_task();
+
+void wake_up_irq_blocked_tasks(int intid);
+
+void add_to_irq_queue(int intid, Task* task);
 
 Task *schedule();
 

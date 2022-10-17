@@ -10,7 +10,7 @@
 #include "task_scheduler.h"
 #include "exception.h"
 #include "message_passing.h"
-#include "gic_v2.h"
+#include "interrupt.h"
 #include "timer.h"
 
 u64 _kernel_regs[31];
@@ -22,7 +22,7 @@ void init_kernel() {
     init_uart(0);
     memory_init();
     // task_queue_init();
-    scheduler_init();
+    init_scheduler();
     init_vector_table();
     init_exception_handlers();
     init_gic();
@@ -41,7 +41,8 @@ void init_exception_handlers() {
     synchronous_exception_handlers[21] = sys_send;
     synchronous_exception_handlers[22] = sys_receive;
     synchronous_exception_handlers[23] = sys_reply;
+    synchronous_exception_handlers[31] = sys_await_event;
 
-    irq_handlers[97] = handle_timer_1;
+    irq_handlers[WAIT_TIMER_1] = handle_timer_1;
 }
 

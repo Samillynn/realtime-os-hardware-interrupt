@@ -23,7 +23,7 @@ void task_init(Task *self) {
   self->should_pass_result = false;
 
   self->memory_block = NULL;
-  self->state = Initialized;
+  self->state = INITIALIZED;
   self->job_node = NULL;
   self->next = NULL;
 

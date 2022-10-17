@@ -68,7 +68,7 @@ void synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_f
   assign_result(receiver, actual_len);
 
   // receiver->state = Ready;
-  change_task_state(receiver, Ready);
+  change_task_state(receiver, READY);
 }
 
 
@@ -88,7 +88,7 @@ void sys_send() {
     return;
   }
 
-  if (receiver->state == WaitReceive) {
+  if (receiver->state == WAITRECEIVE) {
     ReceiveArgs *receive_args = get_receive_args(receiver);
 
 //    printf("before assign: sender_id:%d, rec_tid:%d\r\n", sender->tid, *(receive_args->tid));
@@ -104,12 +104,12 @@ void sys_send() {
 //    print_send(current_task);
     // block sender
     // sender->state = WaitReply;
-    change_task_state(sender, WaitReply);
+    change_task_state(sender, WATIREPLY);
   } else {
     bool success = register_sender(receiver, sender);
     if (success) {
       // block sender
-      change_task_state(sender, WaitSend);
+      change_task_state(sender, WATISEND);
       // sender->state = WaitSend;
     } else {
       printf("Fail to register as sender to receiver(tid:%d)\r\n", receiver->tid);
@@ -138,7 +138,7 @@ void sys_receive() {
 //    print_receive(current_task);
 
     // receiver->state = WaitReceive;
-    change_task_state(receiver, WaitReceive);
+    change_task_state(receiver, WAITRECEIVE);
 //    printf("After change state in receive\r\n");
 //    print_receive(get_receive_args(current_task));
     return;
@@ -166,7 +166,7 @@ void sys_receive() {
   synchronized_send_receive(sender, send_args->msg, send_args->msg_len, receiver, args->msg, args->msg_len);
 
   // sender->state = WaitReply;
-  change_task_state(sender, WaitReply);
+  change_task_state(sender, WATIREPLY);
 
   printf("End of receive\r\n");
   print_receive(current_task);

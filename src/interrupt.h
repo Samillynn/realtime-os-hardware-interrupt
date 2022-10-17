@@ -13,8 +13,8 @@
 
 /** GIC type is 11111 1 00 011 00111 **/
 
-#ifndef __GIC_V2__
-#define __GIC_V2__
+#ifndef __INTERRUPT__
+#define __INTERRUPT__
 
 #include "common.h"
 
@@ -74,6 +74,7 @@ STRUCT(GICC) {
 extern volatile GICC* const gicc;
 extern volatile GICD* const gicd;
 
+void sys_await_event();
 void init_gic();
 u32 ack_interrupt();
 

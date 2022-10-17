@@ -9,7 +9,7 @@ void T2() {}
 void T3() {}
 
 int main() {
-    scheduler_init();
+    init_scheduler();
     create_task(1, NULL, -1); // 0
 
     create_task(1, T1, 0); // 1
@@ -21,31 +21,38 @@ int main() {
     assert(get_task_by_tid(3)->tid == 3);
 
     debug("1: \n");
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid = 2);
 
     debug("2: \n");
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid = 2);
 
-    change_task_state(current_task, WaitReceive);
+    Task* t2 = current_task;
+    change_task_state(current_task, WAITRECEIVE);
 
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid == 3);
 
     debug("3: \n");
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid == 3);
 
     remove_current_task();
 
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid == 0);
     remove_current_task();
 
-    change_task_state(schedule(), Running);
+    change_task_state(schedule(), RUNNING);
     assert(current_task->tid == 1);
     remove_current_task();
 
+    assert(schedule() == NULL);
+
+    change_task_state(t2, READY);
+    assert(schedule()->tid == 2);
+    change_task_state(t2, RUNNING);
+    remove_current_task();
     assert(schedule() == NULL);
 }

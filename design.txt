@@ -1,3 +1,8 @@
+await_event: 
+    change state to waitevent
+    intq[i].push(cur_t)
+    
+
 task->prev_task_node = jobq.tail
 
 create -> add to jobq and readyq

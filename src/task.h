@@ -8,10 +8,10 @@
 #define MAX_SENDER_CAPACITY 64
 
 typedef enum {
-    Initialized,
-    WaitSend, WaitReceive, WaitReply, WaitEvent,
-    Ready,
-    Running
+    INITIALIZED,
+    WATISEND, WAITRECEIVE, WATIREPLY, AWATIEVENT,
+    READY,
+    RUNNING
 } TaskState;
 
 STRUCT(Task) {

@@ -1,5 +1,6 @@
-#include "gic_v2.h"
+#include "interrupt.h"
 #include "printf.h"
+#include "task_scheduler.h"
 
 #define GIC_BASE_ADDR (0xFF840000)
 #define GICD_ADDR (GIC_BASE_ADDR + 0x1000)
@@ -50,4 +51,10 @@ u32 ack_interrupt() {
 
 void clear_interrupt(u32 intid) {
     gicc->eoi = intid;
+}
+
+void sys_await_event() {
+    change_task_state(current_task, AWATIEVENT);
+    int intid = current_task->x[0];
+    add_to_irq_queue(intid, current_task);
 }

@@ -20,19 +20,19 @@ static TaskQueue task_queue[TASK_PRIORITY_MAX];
 
 static TaskNodePool jobq_pool;
 static TaskNodePool readyq_pool;
-static TaskNodePool interruptq_pool;
+static TaskNodePool irqq_pool;
 
 static TaskList jobq;
 static PriorityTaskQueue readyq;
-static PriorityTaskQueue interruptq[NUM_INTERRUPT];
+static PriorityTaskQueue irqq[NUM_INTERRUPT];
 
 void change_task_state(Task* task, TaskState state) {
   assert(task->state != state);
 
   debug("change state of task(%d) from %d to %d\r\n", task->tid, task->state, state);
-  if(state == Running) {
+  if(state == RUNNING) {
     current_task = task;
-  } else if(state == Ready) {
+  } else if(state == READY) {
     ptask_queue_push(&readyq, task);
   } else {
     // do nothing
@@ -41,7 +41,7 @@ void change_task_state(Task* task, TaskState state) {
   task->state = state;
 }
 
-void scheduler_init() {
+void init_scheduler() {
   task_queue_init();
 
   task_node_pool_init(&jobq_pool);
@@ -50,9 +50,9 @@ void scheduler_init() {
   task_node_pool_init(&readyq_pool);
   ptask_queue_init(&readyq, &readyq_pool);
 
-  task_node_pool_init(&interruptq_pool);
+  task_node_pool_init(&irqq_pool);
   for(int i=0; i<NUM_INTERRUPT; i++) {
-    ptask_queue_init(&interruptq[i], &interruptq_pool);
+    ptask_queue_init(&irqq[i], &irqq_pool);
   }
 }
 
@@ -168,7 +168,7 @@ Task *create_task(i32 priority, void (*func)(), i32 parent_tid) {
 
     task_list_push_back(&jobq, task);
     task->job_node = (void*)jobq.tail;
-    change_task_state(task, Ready);
+    change_task_state(task, READY);
   } else {
     printf("Task creating failed\r\n");
   }
@@ -217,9 +217,9 @@ Task *get_current_task() {
 Task* schedule() {
   if(current_task) {
     debug("state of current task is %d\n", current_task->state);
-    assert(current_task->state == Running || current_task->state < Ready);
-    if(current_task->state == Running) {
-      change_task_state(current_task, Ready);
+    assert(current_task->state == RUNNING || current_task->state < READY);
+    if(current_task->state == RUNNING) {
+      change_task_state(current_task, READY);
     } else {
       debug("Task(%d) is blocked with state %d\r\n", current_task->tid, current_task->state);
     }
@@ -237,6 +237,23 @@ Task* schedule() {
   return result;
 }
 
+void wake_up_irq_blocked_tasks(int intid) {
+  assert(0 <= intid && intid < 1022);
+
+  PriorityTaskQueue* cur_intq = &irqq[intid];
+  if(!ptask_queue_empty(cur_intq)) {
+    change_task_state(ptask_queue_pop(cur_intq), READY);
+  } else {
+    printf("Event queue no.%d is empty\r\n", intid);
+  }
+}
+
+void add_to_irq_queue(int intid, Task* task) {
+  assert(0 <= intid && intid < 1022);
+
+  PriorityTaskQueue* cur_intq = &irqq[intid];
+  ptask_queue_push(cur_intq, task);
+}
 
 Task* get_task_by_tid(i32 tid) {
   for(TaskNode* node = jobq.head; node != NULL; node = node->next) {
