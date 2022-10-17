@@ -5,8 +5,6 @@
 #include "memory_block.h"
 #include "queue.h"
 
-#define TASK_PRIORITY_MIN 0
-#define TASK_PRIORITY_MAX 10
 #define MAX_SENDER_CAPACITY 64
 
 enum TaskState {

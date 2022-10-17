@@ -1,5 +1,5 @@
 CC:=gcc
-CPP:=g++
+# CPP:=g++
 
 # COMPILE OPTIONS
 WARNINGS=-Wall -Wextra -Wpedantic -Wno-unused-const-variable

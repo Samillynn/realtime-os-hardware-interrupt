@@ -1,5 +1,6 @@
 #include "task.h"
 #include "printf.h"
+#include "config.h"
 
 void assign_result(Task *task, u64 result) {
   task->should_pass_result = true;
