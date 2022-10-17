@@ -13,39 +13,15 @@ func_ptr_t irq_handlers[1 << 10];
 
 exception_type_t activate(Task *task) {
   printf("Activating task: %d\r\n", task->tid);
-  current_task = task;
+  change_task_state(task, Running);
 
-  if (current_task->should_pass_result) {
-    current_task->x[0] = current_task->result;
+  if (task->should_pass_result) {
+    task->x[0] = task->result;
   }
 
-  printf("SPSR.IRQ = %d\r\n", current_task->spsr & (1 << PSTATE_IRQ));
+  printf("SPSR.IRQ = %d\r\n", task->spsr & (1 << PSTATE_IRQ));
 
-  return activate_current_task();
-}
-
-void handle_current_exception(exception_type_t exception_type) {
-  if (exception_type == SYNCHRONOUS_EXCEPTION) {
-    u64 esr = 12345;
-    asm volatile("mrs %[esr], esr_el1" : [esr] "=r" (esr));
-    handle_synchronous_exception(esr);
-  } else if(exception_type == IRQ) {
-    u32 intid = ack_interrupt();
-    handle_irq(intid);
-    clear_interrupt(intid);
-    printf("============ Check again intid: %d ===================\r\n\n", ack_interrupt());
-  }
-}
-
-void handle_irq(u32 intid) {
-  printf("IRQ.INTID=%d\r\n", intid);
-  func_ptr_t handler = irq_handlers[intid];
-  if(handler == NULL) {
-    printf("Interrupt(%d) is not implemented\r\n", intid);
-  } else {
-    printf("Handling interrupt(%d) with handler in %p\r\n", intid, handler);
-    handler();
-  }
+  return activate_running_task();
 }
 
 void handle_synchronous_exception(u64 esr) {
@@ -59,6 +35,31 @@ void handle_synchronous_exception(u64 esr) {
   }
 
   return;
+}
+
+
+void handle_irq(u32 intid) {
+  printf("IRQ.INTID=%d\r\n", intid);
+  func_ptr_t handler = irq_handlers[intid];
+  if(handler == NULL) {
+    printf("Interrupt(%d) is not implemented\r\n", intid);
+  } else {
+    printf("Handling interrupt(%d) with handler in %p\r\n", intid, handler);
+    handler();
+  }
+}
+
+void handle_current_exception(exception_type_t exception_type) {
+  if (exception_type == SYNCHRONOUS_EXCEPTION) {
+    u64 esr = 12345;
+    asm volatile("mrs %[esr], esr_el1" : [esr] "=r" (esr));
+    handle_synchronous_exception(esr);
+  } else if(exception_type == IRQ) {
+    u32 intid = ack_interrupt();
+    handle_irq(intid);
+    clear_interrupt(intid);
+    printf("============ Check again intid: %d ===================\r\n\n", ack_interrupt());
+  }
 }
 
 void print_error(u64 current_el, u64 elr1, u64 esr1) {

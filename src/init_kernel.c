@@ -21,7 +21,8 @@ void init_kernel() {
     init_spi(0);
     init_uart(0);
     memory_init();
-    task_queue_init();
+    // task_queue_init();
+    scheduler_init();
     init_vector_table();
     init_exception_handlers();
     init_gic();

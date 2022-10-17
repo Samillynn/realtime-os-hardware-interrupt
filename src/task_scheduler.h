@@ -2,7 +2,9 @@
 #define __TASK_SCHEDULER_H__
 
 #include "common.h"
+#include "config.h"
 #include "task.h"
+#include "task_scheduler.h"
 
 STRUCT(TaskQueue) {
     Task *front;
@@ -11,11 +13,15 @@ STRUCT(TaskQueue) {
 
 extern Task *current_task;
 
+void change_task_state(Task* self, TaskState state);
+
+void scheduler_init();
+
 void task_queue_init();
 
 void task_queue_add(Task *task);
 
-Task* task_queue_get(i32 tid);
+Task* get_task_by_tid(i32 tid);
 
 Task *task_queue_pop();
 

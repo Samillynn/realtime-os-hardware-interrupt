@@ -1,10 +1,12 @@
 #ifndef __ASSERT_H__
 #define __ASSERT_H__
 
-int printf(const char *format, ...);
-void exit_all();
 
 #ifndef TEST
+
+#include "printf.h"
+
+void exit_all();
 
 #define assert(success) {\
     if(!(success)) {\
@@ -24,7 +26,6 @@ void exit_all();
 }
 
 #else
-
 #include <assert.h>
 #define assert_p(success, ...) assert(success)
 

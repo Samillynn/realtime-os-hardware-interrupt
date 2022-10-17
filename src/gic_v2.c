@@ -12,9 +12,15 @@
 volatile GICC* const gicc = (GICC*) GICC_ADDR;
 volatile GICD* const gicd = (GICD*) GICD_ADDR;
 
-void init_gic() {
-    setup_gicc();
-    setup_gicd();
+void enable_interrupt(u16 intid) {
+    int index = intid >> 5;
+    int bit_pos = intid && 31;
+    printf("index=%d,bit=%d\r\n", index, bit_pos);
+    gicd->isenable[index] |= (1 << bit_pos);
+}
+
+void disable_interrupt(u16 intid) {
+    gicd->icenable[intid>>5] |= (1 << (intid && 31));
 }
 
 void setup_gicc() {
@@ -33,15 +39,9 @@ void setup_gicd() {
     enable_interrupt(SYS_TIMER_INITID + 1);
 }
 
-void enable_interrupt(u16 intid) {
-    int index = intid >> 5;
-    int bit_pos = intid && 31;
-    printf("index=%d,bit=%d\r\n", index, bit_pos);
-    gicd->isenable[index] |= (1 << bit_pos);
-}
-
-void disable_interrupt(u16 intid) {
-    gicd->icenable[intid>>5] |= (1 << (intid && 31));
+void init_gic() {
+    setup_gicc();
+    setup_gicd();
 }
 
 u32 ack_interrupt() {

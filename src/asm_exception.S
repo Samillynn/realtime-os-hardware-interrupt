@@ -29,10 +29,10 @@ irq_entry:
 
 .align 4
 .text
-.global activate_current_task
+.global activate_running_task
 /** Context switch back to current_task **/
 
-activate_current_task:
+activate_running_task:
     save_general_regs kernel_regs
     load_user_regs current_task
     eret

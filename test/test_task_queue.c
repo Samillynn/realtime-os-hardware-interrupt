@@ -8,15 +8,15 @@ void test_pool() {
     task_node_pool_init(&pool);
 
     TaskNode* n63 = task_node_alloc(&pool);
-    printf("No.%ld Node\n", n63 - pool.all_nodes);
+    printf("No.%ld Node\n", n63 - pool.nodes);
 
     TaskNode* n62 = task_node_alloc(&pool);
-    printf("No.%ld Node\n", n62 - pool.all_nodes);
+    printf("No.%ld Node\n", n62 - pool.nodes);
 
     task_node_free(&pool, n62);
 
     n62 = task_node_alloc(&pool);
-    printf("No.%ld Node\n", n62 - pool.all_nodes);
+    printf("No.%ld Node\n", n62 - pool.nodes);
 
     task_node_free(&pool, n62);
     task_node_free(&pool, n63);
@@ -25,10 +25,10 @@ void test_pool() {
     for(int i=0; i<64; i++) n = task_node_alloc(&pool);
     printf("All nodes allocated\n");
 
-    printf("No.%ld Node\n", n - pool.all_nodes);
+    printf("No.%ld Node\n", n - pool.nodes);
     task_node_free(&pool, n);
     n = task_node_alloc(&pool);
-    printf("No.%ld Node\n", n - pool.all_nodes);
+    printf("No.%ld Node\n", n - pool.nodes);
 
     TaskNode extra;
     task_node_free(&pool, &extra);
@@ -56,7 +56,8 @@ int test_list() {
 
     Task tasks[100];
     for(int i=0; i<64; i++) task_list_push_back(&list, tasks + i);
-    task_list_push_back(&list, tasks);
+    assert(pool.size == 0);
+    // task_list_push_back(&list, tasks);
     for(int i=0; i<64; i++) 
         assert(task_list_pop_front(&list) == tasks + i);
     assert(task_list_empty(&list));
@@ -90,6 +91,6 @@ void test_ptask_list() {
 }
 
 int main() {
+    test_list();
     test_ptask_list();
-    // test_list();
 }

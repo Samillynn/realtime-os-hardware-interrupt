@@ -11,6 +11,8 @@
 #define TASK_PRIORITY_MIN 0
 #define TASK_PRIORITY_MAX 10
 
+#define NUM_INTERRUPT (1024)
+
 void config();
 
 #endif //K2_CONFIG_H

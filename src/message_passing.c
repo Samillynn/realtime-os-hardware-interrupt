@@ -67,7 +67,8 @@ void synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_f
   int actual_len = copy_message(msg_from, len_msg_from, msg_to, len_msg_to);
   assign_result(receiver, actual_len);
 
-  receiver->state = Ready;
+  // receiver->state = Ready;
+  change_task_state(receiver, Ready);
 }
 
 
@@ -79,7 +80,7 @@ void sys_send() {
 
   Task *sender = get_current_task();
   SendArgs *args = get_send_args(sender);
-  Task *receiver = task_queue_get(args->tid);
+  Task *receiver = get_task_by_tid(args->tid);
 
   if (receiver == NULL) {
     printf("Receiver tid: %d not found\r\n", args->tid);
@@ -102,12 +103,14 @@ void sys_send() {
 //    print_receive(task_queue_get(1));
 //    print_send(current_task);
     // block sender
-    sender->state = WaitReply;
+    // sender->state = WaitReply;
+    change_task_state(sender, WaitReply);
   } else {
     bool success = register_sender(receiver, sender);
     if (success) {
       // block sender
-      sender->state = WaitSend;
+      change_task_state(sender, WaitSend);
+      // sender->state = WaitSend;
     } else {
       printf("Fail to register as sender to receiver(tid:%d)\r\n", receiver->tid);
       assign_result(sender, -2);
@@ -134,14 +137,15 @@ void sys_receive() {
 //    printf("Before change state in receive\r\n");
 //    print_receive(current_task);
 
-    receiver->state = WaitReceive;
+    // receiver->state = WaitReceive;
+    change_task_state(receiver, WaitReceive);
 //    printf("After change state in receive\r\n");
 //    print_receive(get_receive_args(current_task));
     return;
   }
 
   int sender_id = next_sender(receiver);
-  Task *sender = task_queue_get(sender_id);
+  Task *sender = get_task_by_tid(sender_id);
   if (sender == NULL) {
     printf("Sender tid: %d is invalid", sender_id);
     assign_result(receiver, -1);
@@ -161,7 +165,8 @@ void sys_receive() {
 //  print_receive(current_task);
   synchronized_send_receive(sender, send_args->msg, send_args->msg_len, receiver, args->msg, args->msg_len);
 
-  sender->state = WaitReply;
+  // sender->state = WaitReply;
+  change_task_state(sender, WaitReply);
 
   printf("End of receive\r\n");
   print_receive(current_task);
@@ -179,7 +184,7 @@ void sys_reply() {
 //  printf("    [sys_reply]: [args] tid=%d, reply(%p)=%s, reply_len=%d\r\n",
 //         args->tid, args->reply, args->reply, args->reply_len);
 
-  Task *sender = task_queue_get(args->tid);
+  Task *sender = get_task_by_tid(args->tid);
 
   if (sender == NULL) {
     printf("Sender tid: %d is invalid", args->tid);

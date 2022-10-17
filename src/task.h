@@ -7,9 +7,12 @@
 
 #define MAX_SENDER_CAPACITY 64
 
-enum TaskState {
-    Active, Ready, WaitSend, WaitReceive, WaitReply
-};
+typedef enum {
+    Initialized,
+    WaitSend, WaitReceive, WaitReply, WaitEvent,
+    Ready,
+    Running
+} TaskState;
 
 STRUCT(Task) {
     u64 x[31];
@@ -23,11 +26,11 @@ STRUCT(Task) {
     i32 tid;
     i32 parent_tid;
     i32 priority;
-    enum TaskState state;
+    TaskState state;
 
     u64 sender_container[MAX_SENDER_CAPACITY];
     Queue senders;
-
+    void* job_node;
 
     MemoryBlock *memory_block;
     Task *next;

@@ -11,5 +11,5 @@
 #include "../tasks/test_gic.h"
 
 void config() {
-  initial_user_task = test_gic;
+  initial_user_task = name_and_rps_server;
 }

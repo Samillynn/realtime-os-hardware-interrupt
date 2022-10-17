@@ -16,7 +16,7 @@ extern func_ptr_t irq_handlers[1 << 10];
 
 void handle_current_exception(exception_type_t exception_type);
 
-exception_type_t activate_current_task();
+exception_type_t activate_running_task();
 
 exception_type_t activate(Task* task);
 
