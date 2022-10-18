@@ -106,7 +106,7 @@ i32 WhoIs(const char *name) {
   NameServerMsg msg;
   {
     msg.action = WHO_IS;
-    msg.name = name;
+    msg.name = (cstring)name;
     msg.tid = MyTid();
   }
 //  printf("    [WhoIs][from %d]: Send(%d, msg[%d, %s, %d])\n",

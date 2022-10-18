@@ -2,6 +2,8 @@
 #include "name_server.h"
 #include "syscall.h"
 #include "memory_pool.h"
+#include "printf.h"
+#include "timer.h"
 
 enum ClockServerAction {
   TICK,
@@ -19,7 +21,7 @@ STRUCT(ClockServerMsg) {
 
 STRUCT(DelayQueueNode) {
   i32 tid;
-  i32 delay;
+  u32 delay;
 
   DelayQueueNode* next;
 };
@@ -83,7 +85,7 @@ void clock_server_tick(i32 tid) {
     msg.action = TICK;
   }
 
-  while (AwaitEvent(CLOCK_EVENT) >= 0) {
+  while (AwaitEvent(WAIT_TIMER_1) >= 0) {
     if (Send(tid, (cstring)&msg, sizeof(ClockServerMsg), (cstring)&msg, sizeof(ClockServerMsg)) < 0) {
       return;
     }
@@ -107,7 +109,7 @@ void clock_server() {
   ClockServerMsg msg;
 
   sys_timer_set_comparator(1, 10000);
-  i32 server_tick = Create(5, clock_server_tick);
+  Create(5, clock_server_tick);
 
   while (Receive(&tid, (cstring)&msg, sizeof(ClockServerMsg))) {
     printf("clock_server received msg[%d, %d] from %d\r\n", msg.action, msg.ticks, tid);

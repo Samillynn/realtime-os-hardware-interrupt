@@ -4,7 +4,6 @@
 #include "common.h"
 #include "config.h"
 #include "task.h"
-#include "task_scheduler.h"
 
 STRUCT(TaskQueue) {
     Task *front;
