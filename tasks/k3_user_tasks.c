@@ -10,8 +10,6 @@ STRUCT(K3ClientMsg) {
     u32 num;
 };
 
-static i32 clock_server_tid;
-
 static void k3_client() {
     K3ClientMsg msg;
     i32 tid = MyTid();
@@ -21,6 +19,8 @@ static void k3_client() {
         printf("k3_client failed to send\r\n");
         return;
     }
+
+    i32 clock_server_tid = WhoIs("clock_server");
 
     while (msg.num) {
         printf("task[%d]: (delay: %u, num: %u)\r\n", tid, msg.delay, msg.num);
@@ -33,7 +33,7 @@ static void k3_client() {
 
 void k3_first_user_task() {
     Create(5, name_server);
-    clock_server_tid = Create(5, clock_server);
+    Create(5, clock_server);
 
     i32 client_idx[64];
     i32 client_priorities[4] = {6, 5, 4, 3};
