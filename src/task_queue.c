@@ -118,7 +118,7 @@ Task* task_list_remove_node(TaskList* list, TaskNode* node) {
 }
 
 Task* task_list_pop_front(TaskList* list) {
-    task_list_remove_node(list, list->head);
+    return task_list_remove_node(list, list->head);
 }
 
 void ptask_queue_init(PriorityTaskQueue* pq, TaskNodePool* pool) {

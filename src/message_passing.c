@@ -54,7 +54,7 @@ int synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_fr
                                int len_msg_to) {
   if (sender == NULL || receiver == NULL) {
     printf("Assertion: Sender | Receiver cannot be NULL\r\n");
-    return;
+    return -1;
   }
 
   //    if (receiver->state == Ready) {
@@ -169,7 +169,7 @@ void sys_receive() {
   change_task_state(sender, WATIREPLY);
 
   printf("End of receive\r\n");
-  print_receive(current_task);
+  print_receive((ReceiveArgs*)current_task);
 }
 
 void sys_reply() {

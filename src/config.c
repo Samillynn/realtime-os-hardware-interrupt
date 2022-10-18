@@ -10,9 +10,11 @@
 #include "../tasks/name_and_rps_server.h"
 #include "../tasks/test_gic.h"
 #include "../tasks/task_test_send_receive_result.h"
+#include "../tasks/k3_user_tasks.h"
 #include "../tasks/idle.h"
 
 void config() {
   idle_task = idle;
-  initial_user_task = test_gic;
+
+  initial_user_task = k3_first_user_task;
 }
