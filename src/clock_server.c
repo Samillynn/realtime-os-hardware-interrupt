@@ -80,10 +80,12 @@ DelayQueueNode* delay_queue_pop(DelayQueue* self) {
   return popped;
 }
 
-void clock_server_tick(i32 tid) {
+void clock_server_tick() {
   ClockServerMsg msg; {
     msg.action = TICK;
   }
+
+  i32 tid = MyParentTid();
 
   while (AwaitEvent(WAIT_TIMER_1) >= 0) {
     if (Send(tid, (cstring)&msg, sizeof(ClockServerMsg), (cstring)&msg, sizeof(ClockServerMsg)) < 0) {
@@ -108,7 +110,7 @@ void clock_server() {
   i32 tid;
   ClockServerMsg msg;
 
-  sys_timer_set_comparator(1, 10000);
+  // sys_timer_set_comparator(1, 10000);
   Create(5, clock_server_tick);
 
   while (Receive(&tid, (cstring)&msg, sizeof(ClockServerMsg))) {
