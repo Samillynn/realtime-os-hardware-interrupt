@@ -50,7 +50,7 @@ int copy_message(const char *msg_from, int len_msg_from, char *msg_to, int len_m
   return actual_len;
 }
 
-void synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_from, Task *receiver, char *msg_to,
+int synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_from, Task *receiver, char *msg_to,
                                int len_msg_to) {
   if (sender == NULL || receiver == NULL) {
     printf("Assertion: Sender | Receiver cannot be NULL\r\n");
@@ -67,8 +67,8 @@ void synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_f
   int actual_len = copy_message(msg_from, len_msg_from, msg_to, len_msg_to);
   assign_result(receiver, actual_len);
 
-  // receiver->state = Ready;
   change_task_state(receiver, READY);
+  return actual_len;
 }
 
 
@@ -200,7 +200,8 @@ void sys_reply() {
 //  printf("before copy in reply\r\n");
 //  print_reply(current_task);
 //  print_send(task_queue_get(2));
-  synchronized_send_receive(receiver, args->reply, args->reply_len, sender, send_args->reply, send_args->reply_len);
+  int actual_len = synchronized_send_receive(receiver, args->reply, args->reply_len, sender, send_args->reply, send_args->reply_len);
+  assign_result(receiver, actual_len);
 
 
 //  printf("End of reply\r\n");

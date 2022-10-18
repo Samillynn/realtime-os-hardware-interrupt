@@ -16,7 +16,6 @@ volatile GICD* const gicd = (GICD*) GICD_ADDR;
 void enable_interrupt(u16 intid) {
     int index = intid >> 5;
     int bit_pos = intid && 31;
-    printf("index=%d,bit=%d\r\n", index, bit_pos);
     gicd->isenable[index] |= (1 << bit_pos);
 }
 
