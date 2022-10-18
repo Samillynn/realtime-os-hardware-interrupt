@@ -74,8 +74,14 @@ STRUCT(GICC) {
 extern volatile GICC* const gicc;
 extern volatile GICD* const gicd;
 
+
+void el_enable_interrupt();
+void el_disable_interrupt();
+u32 ack_interrupt();
+void clear_interrupt(u32 intid);
+void power_standby();
+
 void sys_await_event();
 void init_gic();
-u32 ack_interrupt();
 
 #endif

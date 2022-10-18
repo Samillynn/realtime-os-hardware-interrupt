@@ -3,18 +3,21 @@
 #include "task_scheduler.h"
 #include "task.h"
 #include "../tasks/name_and_rps_server.h"
+#include "config.h"
 #include "printf.h"
 #include "exception.h"
 
-void (*initial_user_task)(void);
+func_ptr_t initial_user_task;
+func_ptr_t idle_task;
 
-void init_first_user_task() {
+void init_tasks() {
+    create_task(TASK_PRIORITY_MIN, idle_task, -1);
     create_task(INITIAL_PRIORITY, initial_user_task, -1);
 }
 
 void kmain() {
     printf("Start Program\r\n");
-    init_first_user_task();
+    init_tasks();
     while(1) {
         Task *task = schedule();
         if (task != NULL) {

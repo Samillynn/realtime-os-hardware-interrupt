@@ -1,3 +1,12 @@
+set interrupt in kernel?
+how to set await_event? -one tick, or can set time
+
+edge vs high
+
+idle - maintainance
+
+how to check wfi is sleeping
+
 await_event: 
     change state to waitevent
     intq[i].push(cur_t)

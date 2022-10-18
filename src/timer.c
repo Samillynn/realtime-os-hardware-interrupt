@@ -3,6 +3,9 @@
 #include "printf.h"
 
 #define REFRESH_RATE 10
+#define NUM_TIMER_ERROR_EXPIREMENTS 100
+
+u64 _timer_measurement_error = 0;
 
 STRUCT(SystemTimer) {
   u32 CS;
@@ -65,8 +68,25 @@ u32 timer_get_sec(Timer *self) { return self->sec10 / 10; }
 
 u32 timer_get_sec10(Timer *self) { return self->sec10; }
 
-u32 timer_get_system_time_count() { return system_timer->CLO; }
-
 u32 timer_count_to_ms(u32 count) {
   return count;
+}
+
+u32 timer_get_system_time_count() { return system_timer->CLO; }
+
+u64 timer_full_system_time_count() {
+  unsigned long long hi = system_timer->CHI;
+  return (hi << 32) + system_timer->CLO;
+}
+
+u64 timer_measurement_error() {
+  if (_timer_measurement_error) 
+    return _timer_measurement_error;
+
+  u64 error = 0;
+  for(int i=0; i<NUM_TIMER_ERROR_EXPIREMENTS; i++) {
+    error += timer_full_system_time_count() - timer_full_system_time_count();
+  }
+  _timer_measurement_error = error / NUM_TIMER_ERROR_EXPIREMENTS;
+  return _timer_measurement_error;
 }

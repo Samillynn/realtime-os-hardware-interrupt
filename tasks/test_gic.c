@@ -32,21 +32,27 @@ void subtask3() {
   }
 }
 
+void wait(int code, int second) {
+  printf("%d: Start wait\r\n", code);
+  u64 start = timer_full_system_time_count();
+  sys_timer_set_comparator(1, second * TIMER_FREQ);
+  AwaitEvent(WAIT_TIMER_1);
+  u64 end = timer_full_system_time_count();
+  printf("%d: End Wait, time used: %u\r\n", code, end - start - timer_measurement_error());
+}
 void test_gic() {
+  u64 start = 0, end = 0;
   printf("Start test_gic\r\n");
 
-  Create(3, subtask1);
-  Create(3, subtask2);
-  Create(3, subtask3);
-  printf("idle created\r\n");
+  // Create(3, subtask1);
+  // Create(3, subtask2);
+  // Create(3, subtask3);
+  // printf("idle created\r\n");
 
-  printf("1: Start wait\r\n");
-  sys_timer_set_comparator(1, 3 * TIMER_FREQ);
-  AwaitEvent(WAIT_TIMER_1);
-  printf("1: End Wait\r\n");
+  wait(1, 2);
 
-  printf("2: Start wait\r\n");
-  sys_timer_set_comparator(1, 2 * TIMER_FREQ);
-  AwaitEvent(WAIT_TIMER_1);
-  printf("2: End Wait\r\n");
+  wait(2, 3);
+
+  wait(3, 5);
+
 }

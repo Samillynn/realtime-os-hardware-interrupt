@@ -21,6 +21,8 @@ u32 timer_get_sec(Timer* self);
 u32 timer_get_sec10(Timer *self);
 
 u32 timer_get_system_time_count();
+u64 timer_full_system_time_count();
+u64 timer_measurement_error();
 u32 timer_count_to_ms(u32 count);
 
 #endif

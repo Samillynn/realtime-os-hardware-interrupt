@@ -26,7 +26,7 @@ void handle_error();
 
 u32 ack_interrupt();
 
-u32 clear_interrupt(u32 intid);
+void clear_interrupt(u32 intid);
 
 #endif
 

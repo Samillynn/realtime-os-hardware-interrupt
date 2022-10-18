@@ -7,8 +7,9 @@
 #define PSTATE_IRQ 7
 #define PSTATE_FIQ 6
 
-extern u64* kernel_regs;
-extern void (*initial_user_task)(void);
+extern func_ptr_t initial_user_task;
+extern func_ptr_t idle_task;
+
 void boot();
 void kmain();
 
