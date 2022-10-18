@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "debug.h": "c",
+        "gic_v2.h": "c"
+    }
+}

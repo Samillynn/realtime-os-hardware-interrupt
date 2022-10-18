@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#define WAIT_TIMER_1 97
+
 i32 Create(i32 priority, void (*function)());
 i32 MyTid();
 i32 MyParentTid();
@@ -11,5 +13,6 @@ void Exit();
 i32 Send(int tid, const char *msg, int msglen, char *reply, int replylen);
 i32 Receive(int *tid, char *msg, int msglen);
 i32 Reply(int tid, void *reply, int replylen);
+i32 AwaitEvent(int event_id);
 
 #endif

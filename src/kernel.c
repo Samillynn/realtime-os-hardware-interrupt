@@ -18,8 +18,8 @@ void kmain() {
     while(1) {
         Task *task = schedule();
         if (task != NULL) {
-            int request = activate(task);
-            handle_exception(request);
+            exception_type_t exception_type = activate(task);
+            handle_current_exception(exception_type);
         } else {
             printf("All user tasks have finished, exit elegantly\r\n");
             return;

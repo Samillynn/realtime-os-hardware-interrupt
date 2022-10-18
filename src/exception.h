@@ -6,17 +6,27 @@
 #include "task_scheduler.h"
 #include "printf.h"
 
-extern u64 (*exception_handlers[1 << 16])(void);
+typedef enum {
+    SYNCHRONOUS_EXCEPTION = 0,
+    IRQ = 1
+} exception_type_t;
 
-void handle_exception(u64 esr);
+extern func_ptr_t synchronous_exception_handlers[1 << 16];
+extern func_ptr_t irq_handlers[1 << 10];
 
-u64 activate_current_task();
+void handle_current_exception(exception_type_t exception_type);
 
-u64 activate(Task* task);
+exception_type_t activate_running_task();
+
+exception_type_t activate(Task* task);
 
 void print_error(u64 current_el, u64 elr1, u64 esr1);
 
 void handle_error();
+
+u32 ack_interrupt();
+
+u32 clear_interrupt(u32 intid);
 
 #endif
 

@@ -1,5 +1,7 @@
 #include "task.h"
 #include "printf.h"
+#include "config.h"
+#include "task_scheduler.h"
 
 void assign_result(Task *task, u64 result) {
   task->should_pass_result = true;
@@ -21,7 +23,10 @@ void task_init(Task *self) {
   self->should_pass_result = false;
 
   self->memory_block = NULL;
+  self->state = INITIALIZED;
+  self->job_node = NULL;
   self->next = NULL;
 
   queue_init(&self->senders, self->sender_container, MAX_SENDER_CAPACITY);
 }
+

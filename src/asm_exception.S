@@ -1,22 +1,38 @@
 #include "macro.S"
-.text
-.align 4
-.global exception_entry
 
-exception_entry:
+.macro switch_to_kernel
     save_user_regs current_task
     load_general_regs kernel_regs
+.endm
 
-    mrs x0, esr_el1
+.text
+.align 4
+.global synchronous_exception_entry
+
+synchronous_exception_entry:
+    switch_to_kernel
+
+    // SYNCHRONOUS_EXCEPTION is 0
+    mov x0, #0
+    ret
+
+.text
+.align 4
+.global irq_entry
+irq_entry:
+    switch_to_kernel
+
+    // IRQ is 1
+    mov x0, #1
     ret
 
 
 .align 4
 .text
-.global activate_current_task
+.global activate_running_task
 /** Context switch back to current_task **/
 
-activate_current_task:
+activate_running_task:
     save_general_regs kernel_regs
     load_user_regs current_task
     eret

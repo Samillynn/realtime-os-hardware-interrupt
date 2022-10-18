@@ -2,6 +2,7 @@
 #define TIMER_H
 
 #include "common.h"
+#define TIMER_FREQ 1000000 // 1MHz
 
 STRUCT(Timer) {
   u32 current_count;
@@ -12,6 +13,8 @@ STRUCT(Timer) {
   u32 sec10;
 };
 
+void sys_timer_clear_match(u8 comparator_id);
+void sys_timer_set_comparator(u8 comparator_id, u32 compare_count);
 void timer_init(Timer* self);
 void timer_update(Timer* self);
 u32 timer_get_sec(Timer* self);

@@ -1,17 +1,33 @@
 #include "timer.h"
 #include "bcm2711.h"
+#include "printf.h"
 
-#define TIMER_FREQ 1000000 // 1MHz
 #define REFRESH_RATE 10
 
-struct SYSTEM_TIMER {
+STRUCT(SystemTimer) {
   u32 CS;
   u32 CLO;
   u32 CHI;
   u32 C[4];
 };
 
-static volatile struct SYSTEM_TIMER* const system_timer = (struct SYSTEM_TIMER*)(SYSTEM_TIMER_BASE);
+static volatile SystemTimer* const system_timer = (SystemTimer*)SYSTEM_TIMER_BASE;
+
+void sys_timer_clear_match(u8 comparator_id) {
+  if(comparator_id > 3) {
+    printf("Assertion Failed: Timer comparator id can only be 0-2\r\n");
+  }
+  printf("Clear match %d\r\n", comparator_id);  
+  system_timer->CS = 1 << comparator_id;
+}
+
+void sys_timer_set_comparator(u8 comparator_id, u32 compare_count) {
+  if(comparator_id > 3) {
+    printf("Assertion Failed: Timer comparator id can only be 0-2\r\n");
+  }
+
+  system_timer->C[comparator_id] = system_timer->CLO + compare_count;
+}
 
 void timer_init(Timer* self) {
   self->current_count = system_timer->CLO;

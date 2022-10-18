@@ -29,6 +29,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#ifdef TEST
+
+#include <stdio.h>
+
+#else
+
 #ifndef _PRINTF_H_
 #define _PRINTF_H_
 
@@ -117,5 +123,6 @@ int fctprintf(void (*out)(char character, void* arg), void* arg, const char* for
 }
 #endif
 
+#endif // TEST
 
 #endif  // _PRINTF_H_
