@@ -33,17 +33,17 @@ The clock server uses a priority queue for storing all the delayed tasks' inform
 We use a priority queue for the interrupts. Since there are 1024 different IRQs are supported by the raspberry Pi, we have 1024 queues for different types of interrupts. Although this assignment only uses one interrupt (clock event), it is extensible for other interrupts.
 Moreover, the interrupt handler uses a function pointer array to hold different interrupt handlers, which is similar to the exception handler.
 - idle task
-The main part of idle is an infinite while loop. When the idle task is running and an interrupt happens, the idle context switches to kernel at the end of the while loop. When it is scheduled again, it resumes its execution at the beginning of the while loop. 
+  - The main part of idle is an infinite while loop. When the idle task is running and an interrupt happens, the idle context switches to kernel at the end of the while loop. When it is scheduled again, it resumes its execution at the beginning of the while loop. 
 After enter the while loop, the idle program:
-  1. set DAIF bits to disable interrupt
-  2. put the core into power-standby mode
-  3. the whole program stops execution after entering power-standby mode,
-  4. when any interrupt is triggered, the program starts its execution again. 
-  5. But since the DAIF bits are set (interrupt disabled), the program will not jump to the exception table. Instead it continues running and goes to the next instruction of the idle task.
-  6. the idle starts running again, 
-  7. idle immediately clears the DAIF bits to enable the interrupt
-  8. once the interrupt is enabled, the program will jump to the vector table, which allows the kernel to do its job.
-To measure the idle time, some code are put between 1 and 2 (`idle_after_enter`),  and between 6 and 7 (`idle_before_exit`)
+    1. set DAIF bits to disable interrupt
+    2. put the core into power-standby mode
+    3. the whole program stops execution after entering power-standby mode,
+    4. when any interrupt is triggered, the program starts its execution again. 
+    5. But since the DAIF bits are set (interrupt disabled), the program will not jump to the exception table. Instead it continues running and goes to the next instruction of the idle task.
+    6. the idle starts running again, 
+    7. idle immediately clears the DAIF bits to enable the interrupt
+    8. once the interrupt is enabled, the program will jump to the vector table, which allows the kernel to do its job.
+  - To measure the idle time, some code are put between 1 and 2 (`idle_after_enter`),  and between 6 and 7 (`idle_before_exit`)
 We try to put most code in `idle_after_enter`, and put as few as possible in `idle_before_exit`. To put few code in `idle_before_exit`, we make the system be able to respond to interrupt as fast as it can be.
 
 ## Limitations
