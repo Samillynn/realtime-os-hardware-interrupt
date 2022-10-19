@@ -1,3 +1,20 @@
+clock {
+    ll boot_time;
+    ll prev_count;
+    int tick;
+    int interval;
+}
+
+handle_system_clock() {
+    clear sys_timer_clear_match
+    set time next tick {
+        get cur time;
+        check we dont miss a tick
+        set comparator as prev_time += interval
+    }
+    
+}
+
 set interrupt in kernel?
 how to set await_event? -one tick, or can set time
 

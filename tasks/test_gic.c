@@ -34,12 +34,12 @@ void subtask3() {
 
 void wait(int code, int second) {
   printf("%d: Start wait\r\n", code);
-  u64 start = timer_full_system_time_count();
-  sys_timer_set_comparator(1, second * TIMER_FREQ);
+  u64 start = sys_timer_full_count();
   AwaitEvent(WAIT_TIMER_1);
-  u64 end = timer_full_system_time_count();
-  printf("%d: End Wait, time used: %u\r\n", code, end - start - timer_measurement_error());
+  u64 end = sys_timer_full_count();
+  printf("%d: End Wait, time used: %u\r\n", code, end - start - sys_timer_msrmt_error());
 }
+
 void test_gic() {
   u64 start = 0, end = 0;
   printf("Start test_gic\r\n");

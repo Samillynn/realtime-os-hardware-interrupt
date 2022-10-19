@@ -38,7 +38,7 @@ void setup_gicd() {
 
 // ================ GICC ==================== //
 void setup_gicc() {
-    gicc->ctl |= 1; 
+    gicc->ctl |= 1;
     gicc->pm = 0;
 }
 

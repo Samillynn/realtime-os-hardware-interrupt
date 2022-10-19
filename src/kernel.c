@@ -11,8 +11,8 @@ func_ptr_t initial_user_task;
 func_ptr_t idle_task;
 
 void init_tasks() {
-    create_task(TASK_PRIORITY_MIN, idle_task, -1);
     create_task(INITIAL_PRIORITY, initial_user_task, -1);
+    create_task(TASK_PRIORITY_MIN, idle_task, -1);
 }
 
 void kmain() {

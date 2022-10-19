@@ -117,7 +117,9 @@ void clock_server() {
     printf("clock_server received msg[%d, %d] from %d\r\n", msg.action, msg.ticks, tid);
     switch (msg.action) {
     case TICK: {
+      printf("TICK\r\n");
       ticks += 1;
+      printf("    ticks: %u\r\n", ticks);
       Reply(tid, (cstring)&msg, sizeof(ClockServerMsg));
 
       msg.ticks = ticks;
@@ -140,10 +142,11 @@ void clock_server() {
       break;
     }
     case DELAY: {
+      printf("DELAY\r\n");
       msg.ticks += ticks;
-      break;
     }
     case DELAY_UNTIL: {
+      printf("DELAY_UNTIL\r\n");
       if (msg.ticks <= ticks) {
         printf("ticks mismatch\r\n");
         Reply(tid, (cstring)&msg, sizeof(ClockServerMsg));

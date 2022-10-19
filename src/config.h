@@ -13,6 +13,8 @@
 
 #define NUM_INTERRUPT (1024)
 
+#define TICK_TIME 10000
+
 void config();
 
 #endif //K2_CONFIG_H

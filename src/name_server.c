@@ -71,10 +71,10 @@ i32 RegisterAs(const cstring name) {
 //  : [result]"=r"(x30)
 //  );
 //  printf("x30=%p\r\n", x30);
-  printf("pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30], current_task->x30_copy);
-  printf("In name server(including one above)\r\n");
-  MyTid();
-  printf("pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30], current_task->x30_copy);
+  // printf("pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30], current_task->x30_copy);
+  // printf("In name server(including one above)\r\n");
+  // MyTid();
+  // printf("pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30], current_task->x30_copy);
 
   printf("called RegisterAs(%s)\r\n", name);
   NameServerMsg msg;
@@ -86,16 +86,16 @@ i32 RegisterAs(const cstring name) {
 
 //  printf("    [RegisterAs][from %d]: Send(%d, ...)\r\n", MyTid(), name_server_tid);
 
-  printf("Before calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
-         current_task->x30_copy);
-  debug30("After call MyTid, before Send");
+  // printf("Before calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
+        //  current_task->x30_copy);
+  // debug30("After call MyTid, before Send");
   if (Send(name_server_tid, (cstring) &msg, sizeof(NameServerMsg), (cstring) &msg, sizeof(NameServerMsg)) < 0) {
     return -1;
   }
   debug30("After Send");
   Yield();
-  printf("After calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
-         current_task->x30_copy);
+  // printf("After calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
+        //  current_task->x30_copy);
   printf("RegisterAs send finished\r\n");
 
   return 0;

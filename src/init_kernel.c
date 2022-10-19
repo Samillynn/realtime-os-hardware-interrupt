@@ -26,10 +26,12 @@ void init_kernel() {
     init_vector_table();
     init_exception_handlers();
     init_gic();
+
+    sys_clock_init(1, TICK_TIME);
 }
 
 void handle_timer_1() {
-    sys_timer_clear_match(1);
+    sys_clock_notify_tick(1);
 }
 
 void init_exception_handlers() {

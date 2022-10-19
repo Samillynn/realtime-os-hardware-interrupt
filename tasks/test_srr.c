@@ -22,14 +22,14 @@ void task_a() {
 void task_b() {
   char msg[512] = "Hello!";
   char reply[512];
-  u32 time_a = timer_get_system_time_count();
+  u32 time_a = sys_timer_half_count();
   int len_reply = Send(receiver_id, msg, msg_len, reply, msg_len);
 //  printf("Received from %d: %s with length:%d\r\n", 1, reply, len_reply);
-  u32 time_b = timer_get_system_time_count();
+  u32 time_b = sys_timer_half_count();
   u32 delta_time = time_b - time_a;
 
-  time_a = timer_get_system_time_count();
-  time_b = timer_get_system_time_count();
+  time_a = sys_timer_half_count();
+  time_b = sys_timer_half_count();
   delta_time = delta_time - (time_b - time_a);
 
   printf("Send operation with message size %d took %d microsends\r\n", msg_len, timer_count_to_ms(delta_time));

@@ -41,7 +41,6 @@ void handle_synchronous_exception(u64 esr) {
 
 
 void handle_irq(u32 intid) {
-  printf("IRQ.INTID=%d\r\n", intid);
   func_ptr_t handler = irq_handlers[intid];
 
   assert_p(handler, "Interrupt(%d) is not implemented\r\n", intid);
@@ -60,7 +59,7 @@ void handle_current_exception(exception_type_t exception_type) {
     u32 intid = ack_interrupt();
     handle_irq(intid);
     clear_interrupt(intid);
-    printf("============ Check again intid: %d ===================\r\n\n", ack_interrupt());
+    debug("============ Check again intid: %d ===================\r\n\n", ack_interrupt());
   }
 }
 

@@ -15,18 +15,18 @@ while (1) {
 #include "../src/printf.h"
 
 void idle() {
-    u64 error = timer_measurement_error();
+    u64 error = sys_timer_msrmt_error();
     u64 total_running_time = 0, end_time = 0, start_time = 0;
     while (1) {
-        end_time = timer_full_system_time_count();
+        end_time = sys_timer_full_count();
         total_running_time += end_time - start_time - error;
-        printf("Time Used by program: %u/%u\r\n", total_running_time, end_time);
+        printf("Time Used by program: %u/%u\r\n", total_running_time - sys_clock_boot_time(1), end_time - sys_clock_boot_time(1));
 
         el_disable_interrupt();
-        printf("Interrupt in IDLE is disabled\r\n");
+        // printf("Interrupt in IDLE is disabled\r\n");
         power_standby();
-        start_time = timer_full_system_time_count();
-        printf("Enabling interrupt in IDLE\r\n");
+        start_time = sys_timer_full_count(1);
+        // printf("Enabling interrupt in IDLE\r\n");
         el_enable_interrupt();
     }
 }

@@ -137,14 +137,16 @@ Task* ptask_queue_pop(PriorityTaskQueue* pq) {
     assert(pq->size);
 
     for(int i=TASK_PRIORITY_MAX-1; i>=0; i--) if(!task_list_empty(&(pq->task_list[i]))) {
+        pq->size -= 1;
         return task_list_pop_front(&(pq->task_list[i]));
     }
-    pq->size -= 1;
 
     return NULL; // should never reach this line
 }
 
 void ptask_queue_push(PriorityTaskQueue* pq, Task* task) {
+    assert(pq);
+    assert(task);
     assert(TASK_PRIORITY_MIN <= task->priority && task->priority < TASK_PRIORITY_MAX);
 
     task_list_push_back(&(pq->task_list[task->priority]), task);

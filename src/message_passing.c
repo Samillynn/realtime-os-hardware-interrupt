@@ -11,7 +11,7 @@ void print_send(SendArgs *send_args) {
 }
 
 void print_receive(ReceiveArgs *args) {
-  printf("    [sys_receive]: *tid=%d, msg=%p, msg_len=%d\r\n", args->tid, args->msg,
+  printf("    [sys_receive]: *tid=%d, msg=%p, msg_len=%d\r\n", *(args->tid), args->msg,
           args->msg_len);
 }
 
@@ -67,7 +67,7 @@ int synchronized_send_receive(Task *sender, const char *msg_from, int len_msg_fr
   int actual_len = copy_message(msg_from, len_msg_from, msg_to, len_msg_to);
   assign_result(receiver, actual_len);
 
-  change_task_state(receiver, READY);
+  if(receiver->state != RUNNING) change_task_state(receiver, READY);
   return actual_len;
 }
 

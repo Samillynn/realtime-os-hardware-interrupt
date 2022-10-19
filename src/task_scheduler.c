@@ -217,6 +217,8 @@ Task *get_current_task() {
 Task* schedule() {
   if(current_task) {
     debug("state of current task is %d\n", current_task->state);
+    assert(current_task);
+    debug("[schedule] current_task->tid=%d, state=%d\r\n", current_task->tid, current_task->state);
     assert(current_task->state == RUNNING || current_task->state < READY);
     if(current_task->state == RUNNING) {
       change_task_state(current_task, READY);
@@ -242,7 +244,9 @@ void wake_up_irq_blocked_tasks(int intid) {
 
   PriorityTaskQueue* cur_intq = &irqq[intid];
   if(!ptask_queue_empty(cur_intq)) {
-    change_task_state(ptask_queue_pop(cur_intq), READY);
+    Task* task = ptask_queue_pop(cur_intq);
+    debug("wake up task(%p) %d\r\n", task, task->tid);
+    change_task_state(task, READY);
   } else {
     printf("Event queue no.%d is empty\r\n", intid);
   }
@@ -251,6 +255,7 @@ void wake_up_irq_blocked_tasks(int intid) {
 void add_to_irq_queue(int intid, Task* task) {
   assert(0 <= intid && intid < 1022);
 
+  debug("Adding task %d to irqq %d\r\n", task, intid);
   PriorityTaskQueue* cur_intq = &irqq[intid];
   ptask_queue_push(cur_intq, task);
 }
