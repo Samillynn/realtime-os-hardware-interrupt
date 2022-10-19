@@ -3,11 +3,12 @@
 - Renhang Liu (21049351)
 
 # project
+cs452 K3
 
 # Build Instructions
 ## download
 ```
-git clone https://git.uwaterloo.ca/h44ding/cs452_k2.git --branch renhang
+git clone https://git.uwaterloo.ca/h44ding/cs452_k3.git
 ```
 ## build
 ```bash
