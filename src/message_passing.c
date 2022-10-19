@@ -5,28 +5,28 @@
 #include "task_scheduler.h"
 
 void print_send(SendArgs *send_args) {
-  printf("    [sys_send]: [send_args] tid=%d, msg=%s, msg_len=%d, reply(%p)=%s, reply_len=%d\r\n",
-          send_args->tid, send_args->msg, send_args->msg_len, send_args->reply, send_args->reply,
-          send_args->reply_len);
+  // printf("    [sys_send]: [send_args] tid=%d, msg=%s, msg_len=%d, reply(%p)=%s, reply_len=%d\r\n",
+  //         send_args->tid, send_args->msg, send_args->msg_len, send_args->reply, send_args->reply,
+  //         send_args->reply_len);
 }
 
 void print_receive(ReceiveArgs *args) {
-  printf("    [sys_receive]: *tid=%d, msg=%p, msg_len=%d\r\n", *(args->tid), args->msg,
-          args->msg_len);
+  // printf("    [sys_receive]: *tid=%d, msg=%p, msg_len=%d\r\n", *(args->tid), args->msg,
+  //         args->msg_len);
 }
 
 void print_reply(ReplyArgs *args) {
-  printf("    [sys_reply]: [args] tid=%d, reply(%p)=%s, reply_len=%d\r\n",
-          args->tid, args->reply, args->reply, args->reply_len);
+  // printf("    [sys_reply]: [args] tid=%d, reply(%p)=%s, reply_len=%d\r\n",
+  //         args->tid, args->reply, args->reply, args->reply_len);
 }
 
 bool register_sender(Task *receiver, Task *sender) {
-  printf("register_sender\r\n");
+  // printf("register_sender\r\n");
   return queue_push(&receiver->senders, sender->tid);
 }
 
 int next_sender(Task *receiver) {
-  printf("next_sender\r\n");
+  // printf("next_sender\r\n");
   return queue_pop(&receiver->senders);
 }
 
@@ -168,7 +168,7 @@ void sys_receive() {
   // sender->state = WaitReply;
   change_task_state(sender, WATIREPLY);
 
-  printf("End of receive\r\n");
+  // printf("End of receive\r\n");
   print_receive((ReceiveArgs*)current_task);
 }
 

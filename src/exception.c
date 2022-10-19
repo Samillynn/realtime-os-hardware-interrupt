@@ -45,7 +45,7 @@ void handle_irq(u32 intid) {
 
   assert_p(handler, "Interrupt(%d) is not implemented\r\n", intid);
   
-  printf("Handling interrupt(%d) with handler in %p\r\n", intid, handler);
+  debug("Handling interrupt(%d) with handler in %p\r\n", intid, handler);
   handler();
   wake_up_irq_blocked_tasks(intid);
 }

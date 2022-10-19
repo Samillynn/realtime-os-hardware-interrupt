@@ -16,7 +16,7 @@ void init_tasks() {
 }
 
 void kmain() {
-    printf("Start Program\r\n");
+    // printf("Start Program\r\n");
     init_tasks();
     while(1) {
         Task *task = schedule();

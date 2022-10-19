@@ -92,7 +92,7 @@ i32 RegisterAs(const cstring name) {
   if (Send(name_server_tid, (cstring) &msg, sizeof(NameServerMsg), (cstring) &msg, sizeof(NameServerMsg)) < 0) {
     return -1;
   }
-  debug30("After Send");
+  // debug30("After Send");
   Yield();
   // printf("After calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
         //  current_task->x30_copy);
