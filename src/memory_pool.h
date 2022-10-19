@@ -8,7 +8,8 @@
 
 STRUCT(MemoryPool) {
   u8 data[MEMORY_POOL_SIZE];
-  bool used[MEMORY_POOL_SIZE / MEMORY_POOL_CHUNK_SIZE];
+  void* unused[MEMORY_POOL_SIZE / MEMORY_POOL_CHUNK_SIZE];
+  i32 unused_top;
 };
 
 void memory_pool_init(MemoryPool *self);
