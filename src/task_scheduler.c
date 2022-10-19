@@ -245,10 +245,11 @@ void wake_up_irq_blocked_tasks(int intid) {
   PriorityTaskQueue* cur_intq = &irqq[intid];
   if(!ptask_queue_empty(cur_intq)) {
     Task* task = ptask_queue_pop(cur_intq);
+    assert(task->state == AWATIEVENT);
     debug("wake up task(%p) %d\r\n", task, task->tid);
     change_task_state(task, READY);
   } else {
-    // printf("Event queue no.%d is empty\r\n", intid);
+    debug("Event queue no.%d is empty\r\n", intid);
   }
 }
 
