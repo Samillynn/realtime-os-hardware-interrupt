@@ -37,7 +37,6 @@ kernel8.elf: $(OBJECTS) linker.ld
 dump: kernel8.elf
 	@$(OBJDUMP) -D kernel8.elf >> dump
 
-
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
