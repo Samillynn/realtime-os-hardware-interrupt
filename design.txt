@@ -1,3 +1,13 @@
+begin_time, execution_time, enter_time, last_exit_time
+
+%50:
+    execution_time/(cur_time-begin_time)
+    begin_time = cur_time
+    idle_count++;
+    execution_time=0;
+
+
+
 clock {
     ll boot_time;
     ll prev_count;

@@ -30,8 +30,8 @@ void name_server() {
   NameServerMsg msg;
 
   while (Receive(&tid, (cstring) &msg, sizeof(NameServerMsg))) {
-    printf("    [name_server]: Received tid: %d, msg(%d, %s, %d)\r\n",
-           tid, msg.action, msg.name, msg.tid);
+    // printf("    [name_server]: Received tid: %d, msg(%d, %s, %d)\r\n",
+          //  tid, msg.action, msg.name, msg.tid);
     switch (msg.action) {
       case REGISTER_AS: {
         // TODO: check for collision
@@ -76,7 +76,7 @@ i32 RegisterAs(const cstring name) {
   // MyTid();
   // printf("pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30], current_task->x30_copy);
 
-  printf("called RegisterAs(%s)\r\n", name);
+  // printf("called RegisterAs(%s)\r\n", name);
   NameServerMsg msg;
   {
     msg.action = REGISTER_AS;
@@ -96,13 +96,13 @@ i32 RegisterAs(const cstring name) {
   Yield();
   // printf("After calling Send, pc=%p,x[30]=%p,x30c=%p\r\n", current_task->pc, current_task->x[30],
         //  current_task->x30_copy);
-  printf("RegisterAs send finished\r\n");
+  // printf("RegisterAs send finished\r\n");
 
   return 0;
 }
 
 i32 WhoIs(const char *name) {
-  printf("called WhoIs(%s)\r\n", name);
+  // printf("called WhoIs(%s)\r\n", name);
   NameServerMsg msg;
   {
     msg.action = WHO_IS;

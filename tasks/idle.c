@@ -11,22 +11,48 @@ while (1) {
 */
 
 #include "../src/timer.h"
+#include "../src/config.h"
 #include "../src/interrupt.h"
 #include "../src/printf.h"
+#include "../src/assert.h"
+
+#define REPORT_PERIOD 50
+
+u64 execution_time = 0, enter_time = 0, last_exit_time = 0, begin_time = 0;
+int idle_count = 0;
+
+void idle_setup() {
+    idle_count = 0;
+    last_exit_time = sys_clock_boot_time(1);
+    begin_time = sys_clock_boot_time(1);
+    assert(last_exit_time == begin_time);
+}
+
+void idle_after_enter() {
+    enter_time = sys_timer_full_count();
+    execution_time += enter_time - last_exit_time;
+    if (idle_count % REPORT_PERIOD == 0) {
+        printf("Performance before the %dth IDLE: %d%%\r\n", idle_count,
+            execution_time / ((enter_time - begin_time) / 100));
+
+        execution_time = 0;
+        begin_time = sys_timer_full_count();
+    }
+    idle_count += 1;
+}
+
+/* Try to minimize execution time before exiting IDLE to make the interrupt responsive */
+void idle_before_exit() {
+    last_exit_time = sys_timer_full_count(1);
+}
 
 void idle() {
-    u64 error = sys_timer_msrmt_error();
-    u64 total_running_time = 0, end_time = 0, start_time = 0;
+    idle_setup();
     while (1) {
-        end_time = sys_timer_full_count();
-        total_running_time += end_time - start_time - error;
-        printf("Time Used by program: %u/%u\r\n", total_running_time - sys_clock_boot_time(1), end_time - sys_clock_boot_time(1));
-
         el_disable_interrupt();
-        // printf("Interrupt in IDLE is disabled\r\n");
+        idle_after_enter();
         power_standby();
-        start_time = sys_timer_full_count(1);
-        // printf("Enabling interrupt in IDLE\r\n");
+        idle_before_exit();
         el_enable_interrupt();
     }
 }

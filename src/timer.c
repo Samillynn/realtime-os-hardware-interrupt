@@ -41,7 +41,7 @@ u64 sys_timer_full_count() {
 }
 
 u64 sys_timer_msrmt_error() {
-  if (_timer_measurement_error) 
+  if (_timer_measurement_error != 0) 
     return _timer_measurement_error;
 
   u64 error = 0;
@@ -49,6 +49,7 @@ u64 sys_timer_msrmt_error() {
     error += sys_timer_full_count() - sys_timer_full_count();
   }
   _timer_measurement_error = error / NUM_TIMER_ERROR_EXPIREMENTS;
+  printf("Measure error is %d\r\n", _timer_measurement_error);
   return _timer_measurement_error;
 }
 

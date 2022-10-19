@@ -114,12 +114,12 @@ void clock_server() {
   Create(5, clock_server_tick);
 
   while (Receive(&tid, (cstring)&msg, sizeof(ClockServerMsg))) {
-    printf("clock_server received msg[%d, %d] from %d\r\n", msg.action, msg.ticks, tid);
+    // printf("clock_server received msg[%d, %d] from %d\r\n", msg.action, msg.ticks, tid);
     switch (msg.action) {
     case TICK: {
-      printf("TICK\r\n");
+      // printf("TICK\r\n");
       ticks += 1;
-      printf("    ticks: %u\r\n", ticks);
+      // printf("    ticks: %u\r\n", ticks);
       Reply(tid, (cstring)&msg, sizeof(ClockServerMsg));
 
       msg.ticks = ticks;
@@ -136,17 +136,17 @@ void clock_server() {
       break;
     }
     case TIME: {
-      printf("TIME\r\n");
+      // printf("TIME\r\n");
       msg.ticks = ticks;
       Reply(tid, (cstring)&msg, sizeof(ClockServerMsg));
       break;
     }
     case DELAY: {
-      printf("DELAY\r\n");
+      // printf("DELAY\r\n");
       msg.ticks += ticks;
     }
     case DELAY_UNTIL: {
-      printf("DELAY_UNTIL\r\n");
+      // printf("DELAY_UNTIL\r\n");
       if (msg.ticks <= ticks) {
         printf("ticks mismatch\r\n");
         Reply(tid, (cstring)&msg, sizeof(ClockServerMsg));
