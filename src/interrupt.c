@@ -16,12 +16,12 @@ volatile GICD* const gicd = (GICD*) GICD_ADDR;
 // ================ GICD ==================== //
 void gicd_enable_interrupt(u16 intid) {
     int index = intid >> 5;
-    int bit_pos = intid && 31;
+    int bit_pos = intid & 31;
     gicd->isenable[index] |= (1 << bit_pos);
 }
 
 void gicd_disable_interrupt(u16 intid) {
-    gicd->icenable[intid>>5] |= (1 << (intid && 31));
+    gicd->icenable[intid>>5] |= (1 << (intid & 31));
 }
 
 void setup_gicd_targets() {

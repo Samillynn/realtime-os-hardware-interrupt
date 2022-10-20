@@ -43,7 +43,7 @@ void idle_after_enter() {
 
 /* Try to minimize execution time before exiting IDLE to make the interrupt responsive */
 void idle_before_exit() {
-    last_exit_time = sys_timer_full_count(1);
+    last_exit_time = sys_timer_full_count();
 }
 
 void idle() {

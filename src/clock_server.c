@@ -1,4 +1,5 @@
 #include "clock_server.h"
+#include "debug.h"
 #include "name_server.h"
 #include "syscall.h"
 #include "memory_pool.h"
@@ -126,7 +127,7 @@ void clock_server() {
 
       DelayQueueNode* current_node = delay_queue.front;
       while (current_node && current_node->delay <= ticks) {
-        printf("clock_server: waking up %d\r\n", current_node->tid);
+        debug("clock_server: waking up %d\r\n", current_node->tid);
         Reply(current_node->tid, (cstring)&msg, sizeof(ClockServerMsg));
         delay_queue_pop(&delay_queue);
         DelayQueueNode* tmp = current_node;
