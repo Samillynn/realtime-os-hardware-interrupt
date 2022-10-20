@@ -40,11 +40,11 @@ After enter the while loop, the idle program:
     3. the whole program stops execution after entering power-standby mode,
     4. when any interrupt is triggered, the program starts its execution again. 
     5. But since the DAIF bits are set (interrupt disabled), the program will not jump to the exception table. Instead it continues running and goes to the next instruction of the idle task.
-    6. the idle starts running again, 
+    6. the idle starts running again. 
     7. idle immediately clears the DAIF bits to enable the interrupt
     8. once the interrupt is enabled, the program will jump to the vector table, which allows the kernel to do its job.
   - To measure the idle time, some code are put between 1 and 2 (`idle_after_enter`),  and between 6 and 7 (`idle_before_exit`)
-We try to put most code in `idle_after_enter`, and put as few as possible in `idle_before_exit`. To put few code in `idle_before_exit`, we make the system be able to respond to interrupt as fast as it can be.
+We try to put most code in `idle_after_enter`, and put as few code as possible in `idle_before_exit`. By putting few code in `idle_before_exit`, we allow the system be able to respond to interrupt as fast as it can.
 
 ## Limitations
 - memory pool
